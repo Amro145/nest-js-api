@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ReviwesService } from './reviwes.service';
 import { Prisma } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
@@ -6,7 +14,7 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('reviwes')
 @Controller('reviwes')
 export class ReviwesController {
-  constructor(private readonly reviwesService: ReviwesService) { }
+  constructor(private readonly reviwesService: ReviwesService) {}
 
   @Post()
   create(@Body() createReviweDto: Prisma.ReviewsCreateInput) {
@@ -24,7 +32,10 @@ export class ReviwesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReviweDto: Prisma.ReviewsUpdateInput) {
+  update(
+    @Param('id') id: string,
+    @Body() updateReviweDto: Prisma.ReviewsUpdateInput,
+  ) {
     return this.reviwesService.update(+id, updateReviweDto);
   }
 
@@ -33,4 +44,3 @@ export class ReviwesController {
     return this.reviwesService.remove(+id);
   }
 }
-

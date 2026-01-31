@@ -6,13 +6,13 @@ import pg from 'pg';
 
 @Injectable()
 export class DatabaseService extends PrismaClient implements OnModuleInit {
-    constructor() {
-        const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
-        const adapter = new PrismaPg(pool);
-        super({ adapter });
-    }
+  constructor() {
+    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+    const adapter = new PrismaPg(pool);
+    super({ adapter });
+  }
 
-    async onModuleInit() {
-        await this.$connect();
-    }
+  async onModuleInit() {
+    await this.$connect();
+  }
 }

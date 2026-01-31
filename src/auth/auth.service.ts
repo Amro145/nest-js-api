@@ -1,4 +1,8 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma } from '@prisma/client';
@@ -33,10 +37,9 @@ export class AuthService {
         password: hashedPassword,
       },
     });
-    
 
     // Remove password from returned object
-    const { password: _, ...result } = user;
+    const { password: _password, ...result } = user;
     return result;
   }
 
@@ -57,7 +60,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { sub: user.id, email: user.email, userName: user.userName };
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      userName: user.userName,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
       user: {
@@ -68,7 +75,7 @@ export class AuthService {
     };
   }
 
-  async logOut() {
+  logOut() {
     return { message: 'Signed out successfully' };
   }
 
@@ -80,7 +87,7 @@ export class AuthService {
         email: true,
         createdAt: true,
         updatedAt: true,
-      }
+      },
     });
   }
 
@@ -93,7 +100,7 @@ export class AuthService {
       return null;
     }
 
-    const { password: _, ...result } = user;
+    const { password: _password, ...result } = user;
     return result;
   }
 
@@ -107,7 +114,7 @@ export class AuthService {
       data,
     });
 
-    const { password: _, ...result } = user;
+    const { password: _password, ...result } = user;
     return result;
   }
 
