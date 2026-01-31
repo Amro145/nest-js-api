@@ -65,31 +65,3 @@ enum Category {
   GROCERY
   OTHER
 }
-
-// data
-// {
-//   "name": "Product 1",
-//   "description": "Description 1",
-//   "price": 100,
-//   "category": "ELECTRONICS",
-//   "sale": true,
-//   "title": {
-// "create": {
-//     "name": "Title 1"
-//   }
-//   },
-//   "reviews": [
-//     {
-//       "create": {
-//         "comment": "Comment 1"
-//       }
-//     }
-//   ],
-//   "tags": [
-//     {
-//       "create": {
-//         "name": "Tag 1"
-//       }
-//     }
-//   ]
-// }

@@ -13,15 +13,37 @@ export class ProductsService {
 
 
   async findAll() {
-    return this.databaseService.product.findMany();
+    return this.databaseService.product.findMany(
+      {
+        include: {
+          title: true,
+          reviews: true,
+          tags: true
+        }
+      }
+    );
   }
 
   findOne(id: number) {
-    return this.databaseService.product.findUnique({ where: { id } });
+    return this.databaseService.product.findUnique({
+      where: { id },
+      include: {
+        title: true,
+        reviews: true,
+        tags: true
+      }
+    });
   }
 
   update(id: number, updateProductDto: Prisma.ProductUpdateInput) {
-    return this.databaseService.product.update({ where: { id }, data: updateProductDto });
+    return this.databaseService.product.update({
+      where: { id }, data: updateProductDto,
+      include: {
+        title: true,
+        reviews: true,
+        tags: true
+      }
+    });
   }
 
   remove(id: number) {
