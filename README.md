@@ -21,7 +21,7 @@ A high-performance, modular REST API built with **NestJS**, **Prisma ORM (v7)**,
 
 ## ✨ Features
 
-- **Modular Architecture:** Clean separation of concerns with dedicated modules for Products, Reviews, Posts, and Profiles.
+- **Modular Architecture:** Clean separation of concerns with dedicated modules for Products and Reviews.
 - **Advanced Database Relations:**
   - `Product` ↔ `Title` (One-to-One)
   - `Product` ↔ `Reviews` (One-to-Many with Cascade Delete)
@@ -79,9 +79,7 @@ npm run start:prod
 src/
 ├── database/        # Global Prisma service & adapter config
 ├── products/        # Product management (CRUD + Relations)
-├── reviwes/         # Performance & feedback management
-├── profiles/        # User profiles
-├── posts/           # Content management
+├── reviwes/         # Review & feedback management
 ├── app.module.ts    # Main entry module
 └── main.ts          # Application bootstrap
 ```

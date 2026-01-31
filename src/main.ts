@@ -6,8 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('NestJS API')
-    .setDescription('API documentation for my professional development project')
+    .setTitle('NestJS Prisma API')
+    .setDescription('API documentation for Product and Review management')
     .setVersion('1.0')
     .build();
 
