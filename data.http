@@ -1,0 +1,100 @@
+### Variables
+@baseUrl = http://localhost:3000
+@authToken = {{login.response.body.access_token}}
+
+############################## AUTH ##############################
+
+### Sign Up
+POST {{baseUrl}}/auth/sign-up
+Content-Type: application/json
+
+{
+  "userName": "Amro",
+  "email": "amro@gmail.com",
+  "password": "password123"
+}
+
+### Sign In
+# @name login
+POST {{baseUrl}}/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "amro@gmail.com",
+  "password": "password123"
+}
+
+### Get All Users
+GET {{baseUrl}}/auth
+Authorization: Bearer {{authToken}}
+
+### Get User By ID
+GET {{baseUrl}}/auth/1
+Authorization: Bearer {{authToken}}
+
+### Update User
+PATCH {{baseUrl}}/auth/1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "userName": "Amro Updated"
+}
+
+### Log Out
+POST {{baseUrl}}/auth/log-out
+Authorization: Bearer {{authToken}}
+
+############################## PRODUCTS ##############################
+
+### Create Product
+POST {{baseUrl}}/products
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Iphone 15",
+  "description": "Latest Apple Phone",
+  "price": 999.99,
+  "category": "ELECTRONICS"
+}
+
+### Get All Products
+GET {{baseUrl}}/products
+Authorization: Bearer {{authToken}}
+
+### Get Single Product
+GET {{baseUrl}}/products/1
+Authorization: Bearer {{authToken}}
+
+### Update Product
+PATCH {{baseUrl}}/products/1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "price": 899.99,
+  "sale": true
+}
+
+### Delete Product
+DELETE {{baseUrl}}/products/1
+Authorization: Bearer {{authToken}}
+
+############################## REVIEWS ##############################
+
+### Create Review
+POST {{baseUrl}}/reviwes
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "comment": "Great product!",
+  "product": {
+    "connect": { "id": 1 }
+  }
+}
+
+### Get All Reviews
+GET {{baseUrl}}/reviwes
+Authorization: Bearer {{authToken}}
