@@ -15,6 +15,7 @@ export class ProductsService {
         title: true,
         reviews: true,
         tags: true,
+        user: true,
       },
     });
   }
@@ -26,6 +27,7 @@ export class ProductsService {
         title: true,
         reviews: true,
         tags: true,
+        user: true,
       },
     });
   }
@@ -38,6 +40,7 @@ export class ProductsService {
         title: true,
         reviews: true,
         tags: true,
+        user: true,
       },
     });
   }
