@@ -22,7 +22,8 @@ model Product {
   sale        Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
+  user        Auth     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
   title   Title?
   reviews Reviews[]
   tags    Tags[]
@@ -42,6 +43,8 @@ model Reviews {
   comment   String
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+  user      Auth     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -61,6 +64,8 @@ model Auth {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  products  Product[]
+  reviews   Reviews[]
 }
 
 enum Category {
