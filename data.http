@@ -99,3 +99,22 @@ Authorization: Bearer {{authToken}}
 ### Get All Reviews
 GET {{baseUrl}}/reviwes
 Authorization: Bearer {{authToken}}
+
+############################## CASES (Law Firm) ##############################
+
+### Create Case (Triggers Background Task)
+POST {{baseUrl}}/cases
+Content-Type: application/json
+
+{
+  "title": "Corporate Merger v2",
+  "description": "Handling the merger between Company A and Company B",
+  "clientName": "John Doe"
+}
+
+### Get All Cases
+GET {{baseUrl}}/cases
+
+### Get Single Case
+GET {{baseUrl}}/cases/1
+

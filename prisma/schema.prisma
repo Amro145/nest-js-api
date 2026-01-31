@@ -14,19 +14,19 @@ datasource db {
 
 // Models
 model Product {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
   description String
   price       Float
   category    Category
-  sale        Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        Auth     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sale        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        Auth      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
-  title   Title?
-  reviews Reviews[]
-  tags    Tags[]
+  title       Title?
+  reviews     Reviews[]
+  tags        Tags[]
 }
 
 model Title {
@@ -56,18 +56,20 @@ model Tags {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
+
 // 
 model Auth {
-  id        Int      @id @default(autoincrement())
-  userName  String   
-  email     String   @unique 
+  id        Int       @id @default(autoincrement())
+  userName  String
+  email     String    @unique
   password  String
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   products  Product[]
   reviews   Reviews[]
 }
+
 enum Role {
   ADMIN
   USER
@@ -83,4 +85,14 @@ enum Category {
   TOYS
   GROCERY
   OTHER
+}
+
+model Case {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  clientName  String
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
