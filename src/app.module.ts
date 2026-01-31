@@ -17,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { CasesModule } from './cases/cases.module';
 import { DocumentModule } from './document/document.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { DocumentModule } from './document/document.module';
         new QueryResolver(['lang']),
       ],
     }),
+    EventEmitterModule.forRoot(),
     DatabaseModule,
     ProductsModule,
     ReviwesModule,
