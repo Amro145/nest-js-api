@@ -21,6 +21,35 @@ model Product {
   sale        Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  title       Title?
+  reviews     Reviews[]
+  tags        Tags[]
+}
+
+model Title {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reviews {
+  id        Int      @id @default(autoincrement())
+  comment   String   @unique
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tags {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  products  Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Category {
@@ -34,3 +63,31 @@ enum Category {
   GROCERY
   OTHER
 }
+
+// data
+// {
+//   "name": "Product 1",
+//   "description": "Description 1",
+//   "price": 100,
+//   "category": "ELECTRONICS",
+//   "sale": true,
+//   "title": {
+// "create": {
+//     "name": "Title 1"
+//   }
+//   },
+//   "reviews": [
+//     {
+//       "create": {
+//         "comment": "Comment 1"
+//       }
+//     }
+//   ],
+//   "tags": [
+//     {
+//       "create": {
+//         "name": "Tag 1"
+//       }
+//     }
+//   ]
+// }
