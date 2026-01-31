@@ -2,12 +2,14 @@ import { ArgumentsHost, Catch, HttpStatus } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
 import { Response } from 'express';
+import { I18nContext } from 'nestjs-i18n';
 
 @Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     catch(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
+        const i18n = I18nContext.current(host);
 
         let message = exception.message.replace(/\n/g, '');
         const status = this.getHttpStatus(exception.code);
@@ -15,7 +17,9 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         switch (exception.code) {
             case 'P2002': {
                 const target = (exception.meta?.target as string[])?.join(', ') || 'field';
-                message = `Unique constraint failed on the ${target}`;
+                message = i18n
+                    ? i18n.t('common.DUPLICATE_ENTRY', { args: { target } })
+                    : `Unique constraint failed on the ${target}`;
                 break;
             }
             case 'P2003': {
@@ -24,11 +28,12 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
                 break;
             }
             case 'P2025': {
-                message = (exception.meta?.cause as string) || 'Record not found';
+                message = i18n
+                    ? i18n.t('common.CASE_NOT_FOUND')
+                    : (exception.meta?.cause as string) || 'Record not found';
                 break;
             }
             default:
-                // For other Prisma codes, use the original message or a generic one
                 break;
         }
 

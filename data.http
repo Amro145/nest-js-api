@@ -118,3 +118,25 @@ GET {{baseUrl}}/cases
 ### Get Single Case
 GET {{baseUrl}}/cases/1
 
+############################## LOCALIZATION (i18n) ##############################
+
+### Get Non-Existent Product (Arabic - Default)
+GET {{baseUrl}}/products/999
+x-lang: ar
+
+### Get Non-Existent Product (English)
+GET {{baseUrl}}/products/999
+x-lang: en
+
+### Create Duplicate User (Arabic - Test Exception Filter)
+POST {{baseUrl}}/auth/sign-up
+Content-Type: application/json
+x-lang: ar
+
+{
+  "userName": "Duplicate",
+  "email": "admin2@gmail.com",
+  "password": "password123"
+}
+
+

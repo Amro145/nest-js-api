@@ -1,0 +1,7 @@
+{
+  "GREETING": "Welcome",
+  "CASE_NOT_FOUND": "Case not found",
+  "PRODUCT_NOT_FOUND": "Product not found",
+  "DUPLICATE_ENTRY": "Duplicate entry for: {target}",
+  "INTERNAL_ERROR": "An internal server error occurred"
+}

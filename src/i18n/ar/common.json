@@ -1,0 +1,6 @@
+{
+  "GREETING": "حبابك؟ يا ",
+  "PRODUCT_NOT_FOUND": "لم يتم العثور على المنتج",
+  "DUPLICATE_ENTRY": "القيمة مدخلة مسبقاً: {target}",
+  "INTERNAL_ERROR": "حدث خطأ داخلي في النظام"
+}
