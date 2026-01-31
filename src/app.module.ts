@@ -5,9 +5,10 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { PostsModule } from './posts/posts.module';
 import { DatabaseModule } from './database/database.module';
 import { ProductsModule } from './products/products.module';
+import { ReviwesModule } from './reviwes/reviwes.module';
 
 @Module({
-  imports: [ProfilesModule, PostsModule, DatabaseModule, ProductsModule],
+  imports: [ProfilesModule, PostsModule, DatabaseModule, ProductsModule, ReviwesModule],
   controllers: [AppController],
   providers: [AppService],
 })
