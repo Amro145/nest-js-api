@@ -16,17 +16,17 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('/:id')
   update(@Param('id') id: string, @Body() updateProductDto: Prisma.ProductUpdateInput) {
     return this.productsService.update(+id, updateProductDto);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
   }
