@@ -53,7 +53,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Iphone 25",
+  "name": "Iphone ",
   "description": "Latest Apple Phone",
   "price": 999.99,
   "category": "ELECTRONICS"

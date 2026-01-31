@@ -1,6 +1,5 @@
 import {
   Injectable,
-  ConflictException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
@@ -18,16 +17,8 @@ export class AuthService {
   async signUp(data: Prisma.AuthCreateInput) {
     const { userName, email, password } = data;
 
-    // Check if user already exists
-    const existingUser = await this.databaseService.auth.findUnique({
-      where: { email },
-    });
-
-    if (existingUser) {
-      throw new ConflictException('Email already exists');
-    }
-
     // hash password
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.databaseService.auth.create({
