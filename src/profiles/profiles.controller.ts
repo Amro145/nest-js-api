@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, Post, Query, Req, Res } from '@nestjs/common';
 import { CreateProfileDto } from './dto/createProfile.dto';
 import { ProfilesService } from './profiles.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('profiles')
 @Controller('profiles')
 export class ProfilesController {
     constructor(private readonly ProfilesService: ProfilesService) { }
