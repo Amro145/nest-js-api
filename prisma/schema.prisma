@@ -57,22 +57,23 @@ model Tags {
   updatedAt DateTime  @updatedAt
 }
 
-// 
 model Auth {
-  id        Int       @id @default(autoincrement())
-  userName  String
-  email     String    @unique
-  password  String
-  role      Role      @default(USER)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
-  reviews   Reviews[]
+  id            Int       @id @default(autoincrement())
+  userName      String
+  email         String    @unique
+  password      String
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  products      Product[]
+  reviews       Reviews[]
+  assignedCases Case[]    @relation("AssignedLawyer")
 }
 
 enum Role {
   ADMIN
   USER
+  LAWYER
 }
 
 enum Category {
@@ -88,11 +89,26 @@ enum Category {
 }
 
 model Case {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  clientName  String
-  status      String   @default("OPEN")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               Int        @id @default(autoincrement())
+  title            String
+  description      String?
+  clientName       String
+  status           String     @default("OPEN")
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  documents        Document[]
+  assignedLawyer   Auth?      @relation("AssignedLawyer", fields: [assignedLawyerId], references: [id])
+  assignedLawyerId Int?
+}
+
+model Document {
+  id        Int      @id @default(autoincrement())
+  fileName  String
+  fileUrl   String // Link (e.g., S3 or R2)
+  fileType  String // pdf, png, jpeg
+  fileSize  Int
+  firmId    String? // Firm Identifier
+  caseId    Int
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }

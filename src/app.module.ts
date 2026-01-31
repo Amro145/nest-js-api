@@ -16,6 +16,7 @@ import { ReviwesModule } from './reviwes/reviwes.module';
 import { AuthModule } from './auth/auth.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { CasesModule } from './cases/cases.module';
+import { DocumentModule } from './document/document.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { CasesModule } from './cases/cases.module';
     AuthModule,
     NotificationsModule,
     CasesModule,
+    DocumentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
