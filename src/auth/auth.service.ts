@@ -15,7 +15,7 @@ export class AuthService {
   ) { }
 
   async signUp(data: Prisma.AuthCreateInput) {
-    const { userName, email, password } = data;
+    const { userName, email, password, role } = data;
 
     // hash password
 
@@ -26,6 +26,7 @@ export class AuthService {
         userName,
         email,
         password: hashedPassword,
+        role,
       },
     });
 
@@ -55,6 +56,7 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       userName: user.userName,
+      role: user.role,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),
@@ -62,6 +64,7 @@ export class AuthService {
         id: user.id,
         email: user.email,
         userName: user.userName,
+        role: user.role,
       },
     };
   }
@@ -78,6 +81,7 @@ export class AuthService {
         email: true,
         createdAt: true,
         updatedAt: true,
+        role: true,
       },
     });
   }

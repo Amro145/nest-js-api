@@ -10,8 +10,9 @@ Content-Type: application/json
 
 {
   "userName": "Amro",
-  "email": "amro@gmail.com",
-  "password": "password123"
+  "email": "admin2@gmail.com",
+  "password": "password123",
+  "role": "ADMIN"
 }
 
 ### Sign In
@@ -20,7 +21,7 @@ POST {{baseUrl}}/auth/sign-in
 Content-Type: application/json
 
 {
-  "email": "amro@gmail.com",
+  "email": "admin2@gmail.com",
   "password": "password123"
 }
 

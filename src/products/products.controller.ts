@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Req,
+  UnauthorizedException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Prisma } from '@prisma/client';
@@ -22,8 +24,14 @@ export class ProductsController {
 
   @UseGuards(AuthGuard)
   @Post()
-  create(@Body() createProductDto: Prisma.ProductCreateInput, @Req() req: Request) {
+  async create(@Body() createProductDto: Prisma.ProductCreateInput, @Req() req: Request) {
     const userId = (req as any).user.sub;
+    const userRole = (req as any).user.role;
+
+    if (userRole !== 'ADMIN') {
+      throw new UnauthorizedException('You are not authorized to create a product');
+    }
+
     return this.productsService.create({
       ...createProductDto,
       user: { connect: { id: userId } }
@@ -42,16 +50,45 @@ export class ProductsController {
 
   @UseGuards(AuthGuard)
   @Patch('/:id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateProductDto: Prisma.ProductUpdateInput,
+    @Req() req: Request,
   ) {
+    const userId = (req as any).user.sub;
+    const userRole = (req as any).user.role;
+
+    const product = await this.productsService.findOne(+id);
+
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+
+    // Authorization check: Only ADMIN or the OWNER can update the product
+    if (userRole !== 'ADMIN' && product.userId !== userId) {
+      throw new UnauthorizedException('You are not authorized to update this product');
+    }
+
     return this.productsService.update(+id, updateProductDto);
   }
 
   @UseGuards(AuthGuard)
   @Delete('/:id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Req() req: Request) {
+    const userId = (req as any).user.sub;
+    const userRole = (req as any).user.role;
+
+    const product = await this.productsService.findOne(+id);
+
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+
+    // Authorization check: Only ADMIN or the OWNER can delete the product
+    if (userRole !== 'ADMIN' && product.userId !== userId) {
+      throw new UnauthorizedException('You are not authorized to delete this product');
+    }
+
     return this.productsService.remove(+id);
   }
 }
