@@ -9,7 +9,7 @@ import express from 'express';
 // For Cloudflare Workers, we need to export a fetch handler
 let cachedApp: any;
 
-async function bootstrap(env: any) {
+async function bootstrap(env?: any) {
   // Transfer Cloudflare Environment variables to process.env for Node compatibility
   if (env) {
     Object.keys(env).forEach(key => {
@@ -32,7 +32,7 @@ async function bootstrap(env: any) {
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
   const config = new DocumentBuilder()
-    .setTitle('NestJS Prisma API')
+    .setTitle('NestJS Law Firm API')
     .setDescription('API documentation for Law Firm Platform')
     .setVersion('1.0')
     .build();
@@ -40,8 +40,21 @@ async function bootstrap(env: any) {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.init();
-  return server;
+  // If we are in the Cloudflare Worker environment
+  if (env) {
+    await app.init();
+    return server;
+  }
+
+  // Standard Local Development Mode
+  await app.listen(process.env.PORT ?? 3000);
+  console.log(`🚀 Application is running on: http://localhost:${process.env.PORT ?? 3000}`);
+  console.log(`📖 Swagger documentation: http://localhost:${process.env.PORT ?? 3000}/api`);
+}
+
+// Check if we are running in a standard Node environment (not Worker)
+if (typeof process !== 'undefined' && process.env && !process.env.CLOUDFLARE_WORKER) {
+  void bootstrap();
 }
 
 // Export for Cloudflare Workers
@@ -51,9 +64,8 @@ export default {
       cachedApp = await bootstrap(env);
     }
 
-    // In a production scenario, you would use a bridge like 'serverless-express'
-    // to map the Cloudflare Fetch Request to an Express Request.
-    // Here we return a 501 to indicate the Edge setup is ready but requires the bridge package.
-    return new Response("NestJS Law Firm API Edge Bootstrapped. Please link a Request-to-Express bridge for full routing.", { status: 501 });
+    // Bridge placeholder remains - you'll need 'serverless-express' or similar to map the requests
+    // However, the worker is now correctly bootstrapped
+    return new Response("NestJS Law Firm API Edge Bootstrapped. Note: Full routing requires a Request-to-Express bridge adapter.", { status: 501 });
   }
 };
