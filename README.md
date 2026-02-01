@@ -1,121 +1,111 @@
-# ⚖️ Smart Law Firm Platform - Backend Core
+# 🚀 NestJS Prisma Authentication API
 
-A high-performance, enterprise-grade backend system designed for modern law firms. This platform orchestrates case management, billing automation, secure document handling, and client lifecycle management using a decoupled, event-driven architecture.
+A secure, high-performance, modular REST API built with **NestJS**, **Prisma ORM (v7)**, **JWT Authentication**, and **PostgreSQL**. This project features a robust product management system with reviews, user roles (ADMIN/USER), and automated error handling.
 
 <p align="center">
-  <img src="https://nestjs.com/img/logo-small.svg" width="80" alt="Nest Logo" />
-  <img src="https://raw.githubusercontent.com/prisma/github-assets/master/logo.png" width="80" alt="Prisma Logo" />
-  <img src="https://redis.io/wp-content/uploads/2024/04/Logotype.svg" width="80" alt="Redis Logo" />
+  <img src="https://nestjs.com/img/logo-small.svg" width="100" alt="Nest Logo" />
+  <img src="https://raw.githubusercontent.com/prisma/github-assets/master/logo.png" width="100" alt="Prisma Logo" />
 </p>
 
 ---
 
-## 🛠 Technical Stack
+## 🛠 Tech Stack
 
-- **Core Framework:** [NestJS](https://nestjs.com/) (Modular, Guards, Interceptors, Versioning)
-- **Language:** [TypeScript](https://www.typescript.org/) (Strict Mode)
-- **ORM & Database:** [Prisma](https://www.prisma.io/) with **PostgreSQL** (Optimized with Indexing & Partitioning)
-- **Security:** JWT Authentication, CORS, Bcrypt Hashing, and Rate Limiting
-- **Background Tasks:** [BullMQ](https://docs.bullmq.io/) with **Redis** for robust Job Queuing
-- **Real-time & Events:** `@nestjs/event-emitter` for decoupled lifecycle logic
-- **Localization:** `nestjs-i18n` (Multi-language support: AR/EN)
-- **API Specification:** [Swagger/OpenAPI 3.0](https://swagger.io/)
+- **Framework:** [NestJS](https://nestjs.com/)
+- **ORM:** [Prisma v7](https://www.prisma.io/)
+- **Database:** [PostgreSQL](https://www.postgresql.org/)
+- **Authentication:** [JWT (JSON Web Token)](https://jwt.io/)
+- **Security:** [Bcrypt](https://www.npmjs.com/package/bcrypt) for password hashing
+- **Documentation:** [Swagger/OpenAPI](https://swagger.io/)
 
 ---
 
-## 🏗 Modular Architecture
+## ✨ Features
 
-The system follows a highly modular design pattern to ensure scalability and maintainability:
-
-```text
-src/
-├── auth/          # Secure Authentication & RBAC (Admin, Lawyer, Client)
-├── cases/         # Case Lifecycle & Assignment Logic
-├── document/      # Secure File Uploads with Cloud Storage Integration
-├── reviews/       # Internal & External Feedback Loops
-├── products/      # Service & Legal Package Management
-├── notifications/ # Background Job Processors (Email/SMS/Push)
-├── database/      # Global Prisma Connection & Logic
-└── i18n/          # Language Dictionary (AR/EN Support)
-```
-
----
-
-## ✨ Key Features
-
-- **📊 Management Dashboard:** Real-time metrics and case status tracking.
-- **📁 Case Lifecycle Management:** Complete workflow from intake to settlement.
-- **👤 Client Creation:** 360-degree client profiles with secure portal access.
-- **☁️ Secure Document Handling:** Upload and manage legal documents with cloud storage (S3/R2) and signed URL access.
-- **🤖 Automation Rules:** Event-driven notification triggers (e.g., Welcome emails on Case creation).
+- **🔒 Secure Authentication & Authorization:**
+  - JWT-based login and logout systems.
+  - Role-based Access Control (RBAC): `ADMIN` and `USER` roles.
+  - Ownership protection: Users can only modify/delete their own products and reviews unless they are an `ADMIN`.
+- **🛠 Global Error Handling:**
+  - Automated Prisma exception filter for clean database error messages (e.g., "Unique constraint failed").
+  - Automated validation pipes for input sanitization and verification.
+- **📦 Modular Architecture:** Clean separation of concerns with dedicated modules for Auth, Products, and Reviews.
+- **💎 Advanced Relational Mapping:**
+  - `User` ↔ `Product` (One-to-Many)
+  - `Product` ↔ `Reviews` (One-to-Many with Cascade Delete)
+  - `Product` ↔ `Title` (One-to-One)
+  - `Product` ↔ `Tags` (Many-to-Many)
 
 ---
 
-## 🔒 Security & Performance
-
-- **Postgres Indexing:** High-use fields (Emails, Case IDs, Foreign Keys) are indexed to ensure sub-millisecond query performance as records grow.
-- **Redis Caching:** Integrated Redis caching layer for rapid access to frequently requested resources and rate limiting protection.
-- **Bcrypt Security:** Passwords are never stored in plain text, utilizing high-entropy salt rounds for hashing.
-- **RBAC:** Fine-grained Role-Based Access Control to protect sensitive legal data.
-
----
-
-## 🚀 Installation Guide (Ubuntu)
+## 🚀 Getting Started
 
 ### 1. Prerequisites
-- Node.js (v20+)
-- PostgreSQL (v14+)
-- Redis Server (v6+)
+- Node.js (v20 or higher)
+- PostgreSQL instance running
 
-### 2. Setup Database & Redis
+### 2. Installation
 ```bash
-sudo apt update
-sudo apt install postgresql redis-server
-sudo systemctl start postgresql redis-server
-```
-
-### 3. Clone & Install
-```bash
-git clone https://github.com/Amro145/nest-js-api.git
-cd nest-js-api
 npm install
 ```
 
-### 4. Environment Configuration
-Create a `.env` file in the root:
+### 3. Environment Setup
+Create a `.env` file in the root directory:
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/lawfirm_db?schema=public"
-JWT_SECRET="your_secure_secret"
-REDIS_HOST="localhost"
-REDIS_PORT=6379
+DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/DB_NAME?schema=public"
+JWT_SECRET="your_secure_jwt_secret_key"
+PORT=3000
 ```
 
-### 5. Initialize Prisma
+### 4. Database Setup
+Sync your database with the Prisma schema and generate the client:
 ```bash
-npx prisma migrate dev --name init
+npx prisma migrate dev
 npx prisma generate
 ```
 
 ---
 
-## 📖 API Documentation
+## 🏃 Running the App
 
-The platform comes with built-in Swagger documentation. Once the server is running, you can access the interactive API explorer at:
+```bash
+# Auto-setup & Start (Custom script)
+chmod +x start-api.sh
+./start-api.sh
 
-👉 **[http://localhost:3000/api](http://localhost:3000/api)**
+# Standard Development (with watch mode)
+npm run start:dev
+
+# Swagger Documentation (While app is running)
+# Access at: http://localhost:3000/api
+```
 
 ---
 
-## 🏃 Running the Platform
+## 📡 API Endpoints Summary
 
-```bash
-# Development mode
-npm run start:dev
+### Auth
+- `POST /auth/sign-up` - Register a new user (`ADMIN` or `USER`)
+- `POST /auth/sign-in` - Login and receive JWT access token
+- `POST /auth/log-out` - End session
+- `GET /auth` - List users (Protected)
 
-# Production Build
-npm run build
-npm run start:prod
-```
+### Products (Protected)
+- `POST /products` - Create product (**Admin only**, owner linked automatically)
+- `GET /products` - Publicly list products
+- `PATCH /products/:id` - Update product (**Admin or Owner only**)
+- `DELETE /products/:id` - Delete product (**Admin or Owner only**)
+
+### Reviews (Protected)
+- `POST /reviews` - Submit a review for a product
+- `GET /reviews` - Publicly list reviews
+- `PATCH /reviews/:id` - Update review (**Admin or Owner only**)
+- `DELETE /reviews/:id` - Delete review (**Admin or Owner only**)
+
+---
+
+## 🧪 Testing
+Use the included `data.http` file with the **REST Client** extension in VS Code to test all endpoints.
 
 ---
 
