@@ -26,9 +26,11 @@ export class ProductsService {
       return;
     }
 
-    // Example logic: Update a "lastReviewedAt" or "averageRating" field if you add them to schema
-    // For now, let's just log it or perform a sample update if needed.
-    // We avoid hardcoding "new name" as it's a bad practice.
+    //  update produt name to new name
+    await this.databaseService.product.update({
+      where: { id: review.productId },
+      data: { name: "new name" },
+    });
   }
 
   async create(createProductDto: Prisma.ProductCreateInput) {
