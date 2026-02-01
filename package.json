@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "build:edge": "esbuild src/main.ts --bundle --outfile=dist/worker.js --platform=browser --format=esm --target=es2022 --external:pg-native --external:hbs --external:fastify --external:@fastify/static --external:class-transformer/storage --external:@nestjs/microservices --external:fast-json-stringify --external:@nestjs/websockets --minify",
+    "build:edge": "esbuild src/main.ts --bundle --outfile=dist/worker.js --platform=node --format=esm --target=es2022 --external:pg-native --external:hbs --external:fastify --external:@fastify/static --external:class-transformer/storage --external:@nestjs/microservices --external:fast-json-stringify --external:@nestjs/websockets --minify",
     "deploy:edge": "npm run build:edge && wrangler deploy"
   },
   "dependencies": {
