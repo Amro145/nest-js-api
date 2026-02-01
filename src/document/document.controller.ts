@@ -20,6 +20,11 @@ import { CreateDocumentDto } from './dto/create-document.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ApiTags, ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { Request } from 'express';
+import { UserPayload } from 'src/auth/interfaces/user-payload.interface';
+
+interface RequestWithUser extends Request {
+  user: UserPayload;
+}
 
 @ApiTags('documents')
 @Controller('documents')
@@ -55,9 +60,9 @@ export class DocumentController {
     )
     file: Express.Multer.File,
     @Body() createDocumentDto: CreateDocumentDto,
-    @Req() req: Request,
+    @Req() req: RequestWithUser,
   ) {
-    const user = (req as any).user;
+    const user = req.user;
     return this.documentService.uploadDocument(
       file,
       +createDocumentDto.caseId,

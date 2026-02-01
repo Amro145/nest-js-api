@@ -97,10 +97,10 @@ npm run start:dev
 - `DELETE /products/:id` - Delete product (**Admin or Owner only**)
 
 ### Reviews (Protected)
-- `POST /reviwes` - Submit a review for a product
-- `GET /reviwes` - Publicly list reviews
-- `PATCH /reviwes/:id` - Update review (**Admin or Owner only**)
-- `DELETE /reviwes/:id` - Delete review (**Admin or Owner only**)
+- `POST /reviews` - Submit a review for a product
+- `GET /reviews` - Publicly list reviews
+- `PATCH /reviews/:id` - Update review (**Admin or Owner only**)
+- `DELETE /reviews/:id` - Delete review (**Admin or Owner only**)
 
 ---
 

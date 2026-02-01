@@ -6,6 +6,7 @@ import { DatabaseService } from 'src/database/database.service';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { UserPayload } from './interfaces/user-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -16,8 +17,6 @@ export class AuthService {
 
   async signUp(data: Prisma.AuthCreateInput) {
     const { userName, email, password, role } = data;
-
-    // hash password
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -30,12 +29,11 @@ export class AuthService {
       },
     });
 
-    // Remove password from returned object
-    const { password: _password, ...result } = user;
+    const { password: _, ...result } = user;
     return result;
   }
 
-  async signIn(data: Prisma.AuthCreateInput) {
+  async signIn(data: Pick<Prisma.AuthCreateInput, 'email' | 'password'>) {
     const { email, password } = data;
 
     const user = await this.databaseService.auth.findUnique({
@@ -52,12 +50,13 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = {
+    const payload: UserPayload = {
       sub: user.id,
       email: user.email,
       userName: user.userName,
       role: user.role,
     };
+
     return {
       access_token: await this.jwtService.signAsync(payload),
       user: {
@@ -95,7 +94,7 @@ export class AuthService {
       return null;
     }
 
-    const { password: _password, ...result } = user;
+    const { password: _, ...result } = user;
     return result;
   }
 
@@ -109,7 +108,7 @@ export class AuthService {
       data,
     });
 
-    const { password: _password, ...result } = user;
+    const { password: _, ...result } = user;
     return result;
   }
 

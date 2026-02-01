@@ -9,15 +9,15 @@ import {
   QueryResolver
 } from 'nestjs-i18n';
 import * as path from 'path';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 import { DatabaseModule } from './database/database.module';
 import { ProductsModule } from './products/products.module';
-import { ReviwesModule } from './reviwes/reviwes.module';
+import { ReviewsModule } from './reviews/reviews.module';
 import { AuthModule } from './auth/auth.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { CasesModule } from './cases/cases.module';
 import { DocumentModule } from './document/document.module';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -42,7 +42,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     EventEmitterModule.forRoot(),
     DatabaseModule,
     ProductsModule,
-    ReviwesModule,
+    ReviewsModule,
     AuthModule,
     NotificationsModule,
     CasesModule,

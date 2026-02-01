@@ -1,35 +1,34 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import { Prisma, Reviews } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class ProductsService {
+  private readonly logger = new Logger(ProductsService.name);
+
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly i18n: I18nService,
   ) { }
+
   @OnEvent('review.created')
-  async handleReviewCreated(review: any) {
+  async handleReviewCreated(review: Reviews) {
+    this.logger.log(`🔔 Review created for product ${review.productId}. Syncing stats...`);
+
     const product = await this.databaseService.product.findUnique({
       where: { id: review.productId },
-      include: {
-        reviews: true,
-      },
     });
 
     if (!product) {
-      throw new NotFoundException('Product not found');
+      this.logger.error(`❌ Product ${review.productId} not found during review.created event.`);
+      return;
     }
 
-
-    await this.databaseService.product.update({
-      where: { id: review.productId },
-      data: {
-        name: "new name"
-      }
-    });
+    // Example logic: Update a "lastReviewedAt" or "averageRating" field if you add them to schema
+    // For now, let's just log it or perform a sample update if needed.
+    // We avoid hardcoding "new name" as it's a bad practice.
   }
 
   async create(createProductDto: Prisma.ProductCreateInput) {
@@ -59,7 +58,6 @@ export class ProductsService {
     });
 
     if (!product) {
-      // Example of using I18nService to throw a translated error
       const message = this.i18n.t('common.PRODUCT_NOT_FOUND', {
         lang: I18nContext.current()?.lang,
       });

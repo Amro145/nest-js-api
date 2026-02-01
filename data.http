@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "userName": "Amro",
-  "email": "admin2@gmail.com",
+  "email": "admin@gmail.com",
   "password": "password123",
   "role": "ADMIN"
 }
@@ -21,7 +21,7 @@ POST {{baseUrl}}/auth/sign-in
 Content-Type: application/json
 
 {
-  "email": "admin2@gmail.com",
+  "email": "amro@gmail.com",
   "password": "password123"
 }
 
@@ -54,7 +54,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Iphone ",
+  "name": "Iphone 19 ",
   "description": "Latest Apple Phone",
   "price": 999.99,
   "category": "ELECTRONICS"
@@ -85,7 +85,7 @@ Authorization: Bearer {{authToken}}
 ############################## REVIEWS ##############################
 
 ### Create Review
-POST {{baseUrl}}/reviwes
+POST {{baseUrl}}/reviews
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -97,7 +97,8 @@ Authorization: Bearer {{authToken}}
 }
 
 ### Get All Reviews
-GET {{baseUrl}}/reviwes
+GET {{baseUrl}}/reviews
+
 Authorization: Bearer {{authToken}}
 
 ############################## CASES (Law Firm) ##############################

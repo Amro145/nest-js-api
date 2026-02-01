@@ -2,6 +2,7 @@ import { Injectable, Logger, ForbiddenException, NotFoundException } from '@nest
 import { DatabaseService } from 'src/database/database.service';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
+import { UserPayload } from 'src/auth/interfaces/user-payload.interface';
 
 @Injectable()
 export class DocumentService {
@@ -15,7 +16,7 @@ export class DocumentService {
   async uploadDocument(
     file: Express.Multer.File,
     caseId: number,
-    user: any,
+    user: UserPayload,
     firmId?: string,
   ) {
     // 1. Authorization: Only Admin or Assigned Lawyer
@@ -36,8 +37,6 @@ export class DocumentService {
     }
 
     // 2. Persist Metadata
-    // Note: In a real app, you would upload to S3/R2 first and get the URL
-    // Here we simulate the URL
     const simulatedFileUrl = `https://storage.provider.com/firm-assets/${file.filename || Date.now()}-${file.originalname}`;
 
     const document = await this.databaseService.document.create({

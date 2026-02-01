@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Reviews } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
-export class ReviwesService {
-  constructor(private readonly databaseService: DatabaseService, private readonly eventEmitter: EventEmitter2) {}
+export class ReviewsService {
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly eventEmitter: EventEmitter2
+  ) { }
+
   async create(createReviewDto: Prisma.ReviewsCreateInput) {
-    
-    const review = await this.databaseService.reviews.create({ data: createReviewDto });
+    const review = await this.databaseService.reviews.create({
+      data: createReviewDto
+    });
     this.eventEmitter.emit('review.created', review);
     return review;
   }
@@ -21,7 +26,7 @@ export class ReviwesService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.databaseService.reviews.findUnique({
       where: { id },
       include: {
@@ -30,7 +35,7 @@ export class ReviwesService {
     });
   }
 
-  update(id: number, updateReviewDto: Prisma.ReviewsUpdateInput) {
+  async update(id: number, updateReviewDto: Prisma.ReviewsUpdateInput) {
     return this.databaseService.reviews.update({
       where: { id },
       data: updateReviewDto,
@@ -40,7 +45,7 @@ export class ReviwesService {
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.databaseService.reviews.delete({ where: { id } });
   }
 }
