@@ -1,0 +1,16 @@
+name = "law-firm-api"
+main = "dist/worker.js"
+compatibility_date = "2024-04-03"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# In production, these should be set via Cloudflare Dashboard or Secrets
+DATABASE_URL = "postgres://user:password@hyperdrive-host:5432/db"
+JWT_SECRET = "your-high-entropy-secret"
+
+# Hyperdrive Configuration
+# Run: wrangler hyperdrive create law-firm-db --connection-string="postgres://..."
+# Then copy the ID here
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "your-hyperdrive-id"
